@@ -41,7 +41,7 @@ class SimpleClient:
         else:
             return self.file.read(maxread)
 
-def get(server, port = 80, doc = "/"):
+def get(server, port = 80, doc = "/", maxread = None):
     http = SimpleClient(server, port)
     request = "GET %s  HTTP/1.0 \n\n" %doc
     http.send_request(request)
@@ -50,14 +50,8 @@ def get(server, port = 80, doc = "/"):
         if not s:
             break
 
-    return http.receive_read()
+    return http.receive_read(maxread)
         
 if __name__ == "__main__":
-    data = get("www.google.com")
-    f = open("google.html", "r+")
-    f.write(data)
-    f.close()
-    sys.stdout.write(data)
-        
-        
-
+    data = get("127.0.0.1", 8080, '/../cv.tex')
+    print data
